@@ -1,0 +1,16 @@
+<h2><%= @player.display_name %></h2>
+<%= render :partial => "form" %>
+
+<h3>Games</h3>
+<% if @player.games.count == 0 %>
+<p>No games played yet</p>
+<% else -%>
+<ul>
+<% @player.games.each do |game| -%>
+<li><%= game.winner.display_name %> beat 
+<%= game.loser.display_name %> 
+on <%= game.created_at %>
+(<%= link_to "X", game_path(game), :method => :delete %>)
+</li>
+<% end -%>
+<% end -%>

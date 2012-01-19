@@ -1,0 +1,6 @@
+<h2>New Game</h2>
+<%= simple_form_for @game do |f| %>
+<%= f.association :winner %>
+<%= f.association :loser %>
+<%= f.submit %>
+<% end %>

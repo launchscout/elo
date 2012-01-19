@@ -1,0 +1,10 @@
+<h2>Players</h2>
+<ul>
+  <% @players.each do |player| -%>
+<li><%= link_to player.display_name, edit_player_path(player) %>
+  (<%= player.rank %>)(<%= link_to 'X', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %>)</li>
+<% end -%>
+</ul>
+
+<%= link_to 'New Player', new_player_path %>
+<%= link_to 'New Game', new_game_path %>
