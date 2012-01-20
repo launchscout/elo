@@ -11,7 +11,12 @@
   <tbody>
     <% @players.each do |player| -%>
       <tr>
-        <td><%= link_to player.display_name, edit_player_path(player) %></td>
+        <td class="player avatar">
+          <%= link_to(edit_player_path(player)) do %>
+            <%= image_tag(gravatar_url_for(player.email)) %>
+            <%= player.name  %>
+          <% end %>
+        </td>
         <td class="rank singles"><%= player.rank %></td>
         <td class="rank doubles"><%= player.doubles_rank %></td>
         <td class="actions"><%= link_to 'Delete', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %></td>
