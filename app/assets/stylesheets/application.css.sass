@@ -15,7 +15,20 @@ form
   select
     font-size: 150%
 
-ul.players
-  font-size: 200%
+table
+  tbody
+    tr td
+      padding: 9px 10px
+
 .rank
-  font-weight: bold
+  text-align: right
+
+dl
+  dt
+    float: left
+    font-weight: bold
+    padding-right: 5px
+    &:after
+      content: ":"
+  dd
+    margin-bottom: 1em
