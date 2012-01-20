@@ -1,6 +1,8 @@
-<li><%= doubles_game.winner1.display_name %> and 
-<%= doubles_game.winner2.display_name %> beat
-<%= doubles_game.loser1.display_name %> and
-<%= doubles_game.loser2.display_name %>
-on <%= doubles_game.created_at %>
-(<%= link_to "X", doubles_game_path(doubles_game), :method => :delete %>)</li>
+<li class="game double">
+  <span class="winner"><%= doubles_game.winner1.display_name %> and 
+    <%= doubles_game.winner2.display_name %></span> beat
+  <span class="loser"><%= doubles_game.loser1.display_name %> and
+    <%= doubles_game.loser2.display_name %></span>
+  <abbr class="timeago" title="<%= doubles_game.created_at.iso8601 %>"><%= doubles_game.created_at.to_s(:long) %></abbr>
+  (<%= link_to "X", doubles_game_path(doubles_game), :method => :delete %>)
+</li>

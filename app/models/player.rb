@@ -6,7 +6,7 @@ class Player < ActiveRecord::Base
   before_validation :set_doubles_rank
   
   def display_name
-    name.blank? ? email : name
+    name.blank? ? email : name.gsub(/ (.*)$/) { " " + $&.split(//)[1] + "." }
   end
 
   def self.by_rank
