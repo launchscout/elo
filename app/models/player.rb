@@ -6,6 +6,9 @@ class Player < ActiveRecord::Base
   has_many :wins, :class_name => "Game", :foreign_key => :winner_id, :dependent => :destroy
   has_many :loses, :class_name => "Game", :foreign_key => :loser_id, :dependent => :destroy
 
+  has_many :doubles_wins, :class_name => "DoublesGame", :foreign_key => :winner_id, :dependent => :destroy
+  has_many :doubles_loses, :class_name => "DoublesGame", :foreign_key => :loser_id, :dependent => :destroy
+  
   before_validation :set_doubles_rank
   
   def display_name
@@ -17,7 +20,7 @@ class Player < ActiveRecord::Base
   end
 
   def games
-    (wins + loses).sort_by(&:created_at)
+    (wins + loses + doubles_wins + doubles_loses).sort_by(&:created_at)
   end
 
   def new_rank(opponent_rank, score, avg_rank = nil, attr = :rank)
