@@ -1,0 +1,21 @@
+@import zurb-foundation
+
+header
+  margin-bottom: 1em
+
+form
+  @extend .nice
+  input[type=email], input[type=text], input[type=number]
+    @extend .input-text
+  input[type=submit]
+    margin-top: 2em
+    @extend .button
+    @extend .blue
+    @extend .round
+  select
+    font-size: 150%
+
+ul.players
+  font-size: 200%
+.rank
+  font-weight: bold

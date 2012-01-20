@@ -2,13 +2,29 @@
 <html>
 <head>
   <title>Elo</title>
+  <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+  <meta charset='utf-8' />
+  <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible' />
+  <meta content='' name='description' />
+  <meta content='' name='author' />
+  <meta content='width=device-width, initial-scale=1.0' name='viewport' />
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <header>
+    <div class="container">
+      <div class="row">
+        <h1><%= link_to('Gaslight Foosball', root_path) %></h1>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="content columns seven"><%= yield %></div>
+      <div class="sidebar columns five hide-on-phones"><%= content_for(:sidebar) %></div>
+    </div>
+  </div>
 </body>
 </html>
