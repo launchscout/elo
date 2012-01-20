@@ -23,6 +23,7 @@ gem 'simple_form'
 group :development, :test do
   gem 'rspec-rails', :require => 'rspec/rails'
   gem 'rspec-given', :require => 'rspec/given'
+  gem 'heroku'
 end
 
 # To use ActiveModel has_secure_password
