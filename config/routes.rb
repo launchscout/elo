@@ -1,4 +1,6 @@
 Elo::Application.routes.draw do
+  resources :doubles_games
+
   resources :games
 
   resources :players

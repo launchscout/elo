@@ -18,8 +18,15 @@ class Player < ActiveRecord::Base
     (wins + loses).sort_by(&:created_at)
   end
 
-  def new_rank(opponent_rank, score)
-    rank + (K_RATING_COEFFICIENT*(score - win_expectancy(rank - opponent_rank))).round
+  def new_rank(opponent_rank, score, avg_rank = nil, attr = :rank)
+    avg_rank ||= rank
+    self.send(attr) + (K_RATING_COEFFICIENT*(score - win_expectancy(avg_rank - opponent_rank))).round
+  end
+
+  def new_doubles_rank(params = {})
+    opponent_rank = params[:opponents].map(&:doubles_rank).inject(0.0) { |sum,rank| sum + rank }.to_f / 2.0
+    avg_rank = (doubles_rank + params[:partner].doubles_rank).to_f/2.0
+    new_rank(opponent_rank, params[:score], avg_rank, :doubles_rank)
   end
 
   def win_expectancy(diff)
@@ -34,4 +41,11 @@ class Player < ActiveRecord::Base
     update_attributes!(:rank => new_rank(opponent.rank, 0))
   end
 
+  def wins_doubles!(params = {})
+    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => 1)))
+  end
+
+  def loses_doubles!(params = {})
+    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => 0))) 
+ end
 end

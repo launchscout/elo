@@ -1,0 +1,8 @@
+<h2>New Doubles Game</h2>
+<%= simple_form_for @doubles_game do |f| %>
+<%= f.association :winner1 %>
+<%= f.association :winner2 %>
+<%= f.association :loser1 %>
+<%= f.association :loser2 %>
+<%= f.submit %>
+<% end %>
