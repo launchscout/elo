@@ -7,8 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <header>
+    <div class="container">
+      <div class="row">
+        <h1><%= link_to('Gaslight Foosball', root_path) %></h1>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="content columns seven"><%= yield %></div>
+      <div class="sidebar columns five hide-on-phones"><%= content_for(:sidebar) %></div>
+    </div>
+  </div>
 </body>
 </html>

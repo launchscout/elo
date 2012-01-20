@@ -1,13 +1,17 @@
 <h2>Players</h2>
-<ul>
+<ul class="players">
   <% @players.each do |player| -%>
-<li><%= link_to player.display_name, edit_player_path(player) %>
-  (<%= player.rank %>/<%= player.doubles_rank %>)(<%= link_to 'X', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %>)</li>
-<% end -%>
+    <li>
+      <%= link_to player.display_name, edit_player_path(player) %>
+      <span class="rank">(<%= player.rank %>)</span>
+      <span class="rank doubles">(<%= player.doubles_rank %>)</span>
+      <span class="actions">(<%= link_to 'X', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %>)</span>
+    </li>
+  <% end -%>
 </ul>
-
 <%= link_to 'New Player', new_player_path %> - 
 <%= link_to 'New Game', new_game_path %> - 
 <%= link_to 'New Doubles Game', new_doubles_game_path %>
-
-<%= render :partial => 'shared/rankings' %>
+<% content_for(:sidebar) do %>
+  <%= render :partial => 'shared/rankings' %>
+<% end %>
