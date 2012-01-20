@@ -1,11 +1,13 @@
 class Player < ActiveRecord::Base
 
   validates_uniqueness_of :email
-  validates_presence_of :email
+  validates_presence_of :email, :rank, :doubles_rank
 
   has_many :wins, :class_name => "Game", :foreign_key => :winner_id, :dependent => :destroy
   has_many :loses, :class_name => "Game", :foreign_key => :loser_id, :dependent => :destroy
 
+  before_validation :set_doubles_rank
+  
   def display_name
     name.blank? ? email : name
   end
@@ -47,5 +49,11 @@ class Player < ActiveRecord::Base
 
   def loses_doubles!(params = {})
     update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => 0))) 
- end
+  end
+
+  private
+
+  def set_doubles_rank
+    self.doubles_rank ||= self.rank
+  end
 end
