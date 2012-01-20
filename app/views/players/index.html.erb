@@ -1,11 +1,16 @@
 <h2>Players</h2>
+
+<ul
+<%= link_to 'New Player', new_player_path %> - 
+<%= link_to 'New Game', new_game_path %> - 
+<%= link_to 'New Doubles Game', new_doubles_game_path %>
+
 <table class="players">
   <thead>
     <tr>
       <th>Player</th>
-      <th class="rank">Singles Rank</th>
-      <th class="rank">Doubles Rank</th>
-      <th>Actions</th>
+      <th class="rank">Rank <span class="hide-on-phones">(Single / Doubles)</span></th>
+      <th class="hide-on-phones">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -17,17 +22,13 @@
             <%= player.name  %>
           <% end %>
         </td>
-        <td class="rank singles"><%= number_with_delimiter(player.rank) %></td>
-        <td class="rank doubles"><%= number_with_delimiter(player.doubles_rank) %></td>
-        <td class="actions"><%= link_to 'Delete', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %></td>
+        <td class="rank singles"><%= number_with_delimiter(player.rank) %> / <%= number_with_delimiter(player.doubles_rank) %></td>
+        <td class="actions hide-on-phones"><%= link_to 'Delete', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %></td>
       </tr>
     <% end -%>
   </tbody>
 </table>
 
-<%= link_to 'New Player', new_player_path %> - 
-<%= link_to 'New Game', new_game_path %> - 
-<%= link_to 'New Doubles Game', new_doubles_game_path %>
 <% content_for(:sidebar) do %>
   <%= render :partial => 'shared/rankings' %>
 <% end %>

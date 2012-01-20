@@ -9,6 +9,7 @@
   <meta content='' name='author' />
   <meta content='width=device-width, initial-scale=1.0' name='viewport' />
   <%= stylesheet_link_tag    "application" %>
+  <%= stylesheet_link_tag    "mobile" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -18,7 +19,7 @@
       <div class="row">
         <h1 class="columns six"><%= link_to('Gaslight Foosball', root_path) %></h1>
         <div class="columns six">
-          <ul class="nav-bar">
+          <ul class="nav-bar hide-on-phones">
             <li><%= link_to("Learn the Rules", root_path) %></li>
             <li><%= link_to("Recent Games", root_path) %></li>
           </ul>
@@ -31,6 +32,10 @@
       <div class="content columns seven"><%= yield %></div>
       <div class="sidebar columns five hide-on-phones"><%= content_for(:sidebar) %></div>
     </div>
+    <ul class="nav-bar show-on-phones">
+      <li><%= link_to("Learn the Rules", root_path) %></li>
+      <li><%= link_to("Recent Games", root_path) %></li>
+    </ul>
   </div>
 </body>
 </html>
