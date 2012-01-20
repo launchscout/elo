@@ -16,7 +16,13 @@
   <header>
     <div class="container">
       <div class="row">
-        <h1><%= link_to('Gaslight Foosball', root_path) %></h1>
+        <h1 class="columns six"><%= link_to('Gaslight Foosball', root_path) %></h1>
+        <div class="columns six">
+          <ul class="nav-bar">
+            <li><%= link_to("Learn the Rules", root_path) %></li>
+            <li><%= link_to("Recent Games", root_path) %></li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>

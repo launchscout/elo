@@ -17,8 +17,8 @@
             <%= player.name  %>
           <% end %>
         </td>
-        <td class="rank singles"><%= player.rank %></td>
-        <td class="rank doubles"><%= player.doubles_rank %></td>
+        <td class="rank singles"><%= number_with_delimiter(player.rank) %></td>
+        <td class="rank doubles"><%= number_with_delimiter(player.doubles_rank) %></td>
         <td class="actions"><%= link_to 'Delete', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %></td>
       </tr>
     <% end -%>

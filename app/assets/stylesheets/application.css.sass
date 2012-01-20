@@ -1,7 +1,19 @@
 @import ZURB-foundation
 
 header
-  margin-bottom: 1em
+  margin-bottom: 2em
+  background-color: #333
+  padding-top: 0.5em
+  ul.nav-bar
+    margin-top: 0.5em
+    background: transparent
+    border: none
+    li, a
+      border: none
+      &:hover
+        color: #eee
+    li
+      float: right
 
 form
   @extend .nice
@@ -19,8 +31,11 @@ table
   tbody
     tr td
       padding: 9px 10px
+      &.actions
+        text-align: center
 
 td.player.avatar
+  font-size: 150%
   img, a
     vertical-align: middle
     display: inline-block
