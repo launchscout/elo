@@ -1,0 +1,6 @@
+<li><%= doubles_game.winner1.display_name %> and 
+<%= doubles_game.winner1.display_name %> beat
+<%= doubles_game.loser1.display_name %> and
+<%= doubles_game.loser2.display_name %>
+on <%= doubles_game.created_at %>
+(<%= link_to "X", doubles_game_path(doubles_game), :method => :delete %>)</li>

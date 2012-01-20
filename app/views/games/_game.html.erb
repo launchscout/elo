@@ -1,0 +1,4 @@
+<li><%= game.winner.display_name %> beat 
+<%= game.loser.display_name %> 
+on <%= game.created_at %>
+(<%= link_to "X", game_path(game), :method => :delete %>)</li>

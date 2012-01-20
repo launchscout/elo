@@ -2,12 +2,6 @@ class Player < ActiveRecord::Base
 
   validates_uniqueness_of :email
   validates_presence_of :email, :rank, :doubles_rank
-
-  has_many :wins, :class_name => "Game", :foreign_key => :winner_id, :dependent => :destroy
-  has_many :loses, :class_name => "Game", :foreign_key => :loser_id, :dependent => :destroy
-
-  has_many :doubles_wins, :class_name => "DoublesGame", :foreign_key => :winner_id, :dependent => :destroy
-  has_many :doubles_loses, :class_name => "DoublesGame", :foreign_key => :loser_id, :dependent => :destroy
   
   before_validation :set_doubles_rank
   
@@ -20,7 +14,8 @@ class Player < ActiveRecord::Base
   end
 
   def games
-    (wins + loses + doubles_wins + doubles_loses).sort_by(&:created_at)
+    (Game.where("winner_id = :id OR loser_id = :id", {:id => id}).order('created_at desc') +
+     DoublesGame.where("winner1_id = :id OR winner2_id = :id OR loser1_id = :id OR loser2_id = :id", {:id => id}).order('created_at desc')).sort_by(&:created_at).reverse
   end
 
   def new_rank(opponent_rank, score, avg_rank = nil, attr = :rank)
