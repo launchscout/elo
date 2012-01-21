@@ -17,11 +17,14 @@
   <header>
     <div class="container">
       <div class="row">
-        <h1 class="columns six"><%= link_to('Gaslight Foosball', root_path) %></h1>
+        <div class="columns six">
+          <%= link_to(image_tag('gaslight.png'), root_path) %>
+        </div>
         <div class="columns six">
           <ul class="nav-bar hide-on-phones">
-            <li><%= link_to("Learn the Rules", root_path) %></li>
+            <li><%= link_to("Learn the Rules", page_path(:rules)) %></li>
             <li><%= link_to("Recent Games", root_path) %></li>
+            <li><%= link_to 'New Player', new_player_path %></li>
           </ul>
         </div>
       </div>
@@ -29,12 +32,15 @@
   </header>
   <div class="container">
     <div class="row">
-      <div class="content columns seven"><%= yield %></div>
-      <div class="sidebar columns five"><%= content_for(:sidebar) %></div>
+      <div class="content columns <%= content_for?(:sidebar) ? "seven" : "twelve" %>"><%= yield %></div>
+      <% if content_for?(:sidebar) %>
+        <div class="sidebar columns five"><%= content_for(:sidebar) %></div>
+      <% end %>
     </div>
-    <ul class="nav-bar show-on-phones">
-      <li><%= link_to("Learn the Rules", root_path) %></li>
-      <li><%= link_to("Recent Games", root_path) %></li>
+    <dl class="tabs nice mobile show-on-phones">
+      <dd><%= link_to 'New Player', new_player_path %></dd>
+      <dd><%= link_to("Learn the Rules", page_path(:rules)) %></dd>
+      <dd><%= link_to("Recent Games", root_path) %></dd>
     </ul>
   </div>
 </body>

@@ -1,15 +1,14 @@
+<dl class="nice vertical tabs show-on-phones">
+  <dd><%= link_to 'New Game', new_game_path %></dd>
+  <dd><%= link_to 'New Doubles Game', new_doubles_game_path %></dd>
+</dl>
+
 <h2>Players</h2>
-
-<ul
-<%= link_to 'New Player', new_player_path %> - 
-<%= link_to 'New Game', new_game_path %> - 
-<%= link_to 'New Doubles Game', new_doubles_game_path %>
-
 <table class="players">
   <thead>
     <tr>
       <th>Player</th>
-      <th class="rank">Rank <span class="hide-on-phones">(Single / Doubles)</span></th>
+      <th class="rank">Rank <span>(Single / Doubles)</span></th>
       <th class="hide-on-phones">Actions</th>
     </tr>
   </thead>

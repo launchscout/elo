@@ -2,14 +2,19 @@
 
 header
   margin-bottom: 2em
-  background-color: #333
-  padding-top: 0.5em
+  background-color: #aaa
+  .container
+    min-height: 60px
+  a img
+    max-height: 50px
+    padding-top: 5px
   ul.nav-bar
-    margin-top: 0.5em
     background: transparent
     border: none
+    margin: 6px 0
     li, a
       border: none
+      color: #369
       &:hover
         color: #eee
     li
@@ -34,12 +39,13 @@ table
       padding: 9px 10px
       &.actions
         text-align: center
-
-td.player.avatar
-  font-size: 150%
-  img, a
-    vertical-align: middle
-    display: inline-block
+    tr:nth-child(even)
+      background-color: #f9f9f9
+    td.player.avatar
+      font-size: 120%
+      img, a
+        vertical-align: middle
+        display: inline-block
 
 .game
   span
@@ -53,7 +59,7 @@ td.player.avatar
 .rank
   text-align: right
 
-dl
+dl.terms
   dt
     float: left
     font-weight: bold
