@@ -1,0 +1,15 @@
+<h2 class="player">
+  <%= @player.display_name %>
+</h2>
+<%= image_tag(gravatar_url_for(@player.email, :size => 100)) %>
+
+<% content_for(:sidebar) do %>
+  <h3>Recent Games</h3>
+  <% if @player.games.count == 0 %>
+    <p>No games played yet</p>
+  <% else -%>
+    <ul>
+      <%= render @player.games %>
+    </ul>
+  <% end -%>
+<% end %>

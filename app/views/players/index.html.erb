@@ -16,7 +16,7 @@
     <% @players.each do |player| -%>
       <tr>
         <td class="player avatar">
-          <%= link_to(edit_player_path(player)) do %>
+          <%= link_to(player) do %>
             <%= image_tag(gravatar_url_for(player.email)) %>
             <%= player.name  %>
           <% end %>
