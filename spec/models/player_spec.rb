@@ -49,16 +49,36 @@ describe Player do
   end
 
   context "singles stats" do
-    Given(:player) { Player.new( :rank => 500 ) }
+    Given(:player) { Player.new( :rank => 500, :email => 'a@b.c' ) }
     context "initially" do
       Then { player.singles_wins.should == 0 }
       Then { player.singles_losses.should == 0 }
     end
-    context "after a win" do
-        Given(:opponent) { Player.new( :rank => 500 ) }
-#        Given { Game.new( :winner => player, :loser => opponent ).save }
-#        Then { player.singles_wins.should == 1 }
-#        Then { opponent.singles_losses.should == 1 }
+    context "after a game" do
+        Given(:opponent) { Player.new( :rank => 500, :email => 'x@y.z' ) }
+        Given!(:game) { Game.create( :winner => player, :loser => opponent ) }
+        Then { player.singles_wins.should == 1 }
+        Then { opponent.singles_losses.should == 1 }
+    end
+  end
+
+  context "doubles stats" do
+    Given(:player) { Player.new(:rank => 500, :email => 'a@b.c') }
+    Given(:partner) { Player.new(:rank => 500, :email => 'b@c.d') }
+    context "initially" do
+      Then { player.doubles_wins.should == 0 }
+      Then { partner.doubles_wins.should == 0 }
+      Then { player.doubles_losses.should == 0 }
+      Then { partner.doubles_losses.should == 0 }
+    end
+    context "after a game" do
+        Given(:opponent) { Player.new(:rank => 500, :email => 'x@y.z') }
+        Given(:opponent_partner) { Player.new(:rank => 500, :email => 'w@x.y') }
+        Given!(:game) { DoublesGame.create( :winner1 => player, :winner2 => partner, :loser1 => opponent, :loser2 => opponent_partner ) }
+        Then { player.doubles_wins.should == 1 }
+        Then { partner.doubles_wins.should == 1 }
+        Then { opponent.doubles_losses.should == 1 }
+        Then { opponent_partner.doubles_losses.should == 1 }
     end
   end
 
