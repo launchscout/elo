@@ -7,7 +7,7 @@ describe Player do
   end
 
   context "must have unique email" do
-    Given(:player) { Player.create!(:email => "bob@example.com") }
+    Given(:player) { Player.create!(:email => "bob@example.com", :rank => "500") }
     When(:dup) { Player.new(:email => player.email) }
     Then { dup.should have(1).error_on(:email) }
   end
