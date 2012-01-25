@@ -47,5 +47,19 @@ describe Player do
       end
     end
   end
-  
+
+  context "singles stats" do
+    Given(:player) { Player.new( :rank => 500 ) }
+    context "initially" do
+      Then { player.singles_wins.should == 0 }
+      Then { player.singles_losses.should == 0 }
+    end
+    context "after a win" do
+        Given(:opponent) { Player.new( :rank => 500 ) }
+#        Given { Game.new( :winner => player, :loser => opponent ).save }
+#        Then { player.singles_wins.should == 1 }
+#        Then { opponent.singles_losses.should == 1 }
+    end
+  end
+
 end

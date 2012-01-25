@@ -4,6 +4,14 @@
 <%= image_tag(gravatar_url_for(@player.email, :size => 100)) %>
 
 <% content_for(:sidebar) do %>
+  <% unless @player.games.count == 0 %>
+    <p>
+    <b>Singles: </b><%= @player.singles_wins %>-<%= @player.singles_losses %>
+    <br/>
+    <b>Doubles: </b><%= @player.doubles_wins %>-<%= @player.doubles_losses %>
+    </p>
+  
+  <% end %>
   <h3>Recent Games</h3>
   <% if @player.games.count == 0 %>
     <p>No games played yet</p>
