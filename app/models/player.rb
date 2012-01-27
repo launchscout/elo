@@ -1,5 +1,7 @@
 class Player < ActiveRecord::Base
 
+  acts_as_audited :except => [:email, :name]
+
   validates_uniqueness_of :email
   validates_presence_of :email, :rank, :doubles_rank
   
