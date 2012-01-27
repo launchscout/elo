@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120120175459) do
+ActiveRecord::Schema.define(:version => 20120127135257) do
 
   create_table "doubles_games", :force => true do |t|
     t.integer  "winner1_id"
@@ -20,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20120120175459) do
     t.integer  "loser2_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "loser_score", :default => 0
   end
 
   add_index "doubles_games", ["loser1_id"], :name => "index_doubles_games_on_loser1_id"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20120120175459) do
     t.integer  "loser_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "loser_score", :default => 0
   end
 
   create_table "players", :force => true do |t|
