@@ -5,7 +5,11 @@ class DoublesGame < ActiveRecord::Base
   belongs_to :loser2, :class_name => "Player"
 
   before_create :update_ranks
-  
+
+  def self.today
+    where(:created_at => (Date.today + 0.hours)..(Date.today + 23.hours + 59.minutes))
+  end
+
   private
 
   def update_ranks
@@ -14,5 +18,5 @@ class DoublesGame < ActiveRecord::Base
     loser1.loses_doubles!(:partner => loser2, :opponents => [winner1, winner2])
     loser2.loses_doubles!(:partner => loser1, :opponents => [winner1, winner2])
   end
-  
+
 end
