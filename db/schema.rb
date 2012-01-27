@@ -35,13 +35,13 @@ ActiveRecord::Schema.define(:version => 20120127135257) do
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "doubles_games", :force => true do |t|
-    t.integer   "winner1_id"
-    t.integer   "winner2_id"
-    t.integer   "loser1_id"
-    t.integer   "loser2_id"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "loser_score", :default => 0
+    t.integer  "winner1_id"
+    t.integer  "winner2_id"
+    t.integer  "loser1_id"
+    t.integer  "loser2_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "loser_score", :default => 0
   end
 
   add_index "doubles_games", ["loser1_id"], :name => "index_doubles_games_on_loser1_id"
@@ -50,20 +50,20 @@ ActiveRecord::Schema.define(:version => 20120127135257) do
   add_index "doubles_games", ["winner2_id"], :name => "index_doubles_games_on_winner2_id"
 
   create_table "games", :force => true do |t|
-    t.integer   "winner_id"
-    t.integer   "loser_id"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "loser_score", :default => 0
+    t.integer  "winner_id"
+    t.integer  "loser_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "loser_score", :default => 0
   end
 
   create_table "players", :force => true do |t|
-    t.string    "email"
-    t.integer   "rank"
-    t.string    "name"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "doubles_rank"
+    t.string   "email"
+    t.integer  "rank"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "doubles_rank"
   end
 
 end

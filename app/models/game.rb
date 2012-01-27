@@ -11,7 +11,7 @@ class Game < ActiveRecord::Base
   private
 
   def update_ranks
-    winner.wins!(loser)
-    loser.loses!(winner)
+    winner.wins!(loser, loser_score)
+    loser.loses!(winner, loser_score)
   end
 end

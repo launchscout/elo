@@ -51,20 +51,20 @@ class Player < ActiveRecord::Base
     1 / ( 10**(-diff.to_f/F_RATING_INTERVAL_SCALE_WEIGHT.to_f) + 1)
   end
 
-  def wins!(opponent)
-    update_attributes!(:rank => new_rank(opponent.rank, 1))
+  def wins!(opponent, loser_score = 0)
+    update_attributes!(:rank => new_rank(opponent.rank, (10.0/(10.0+ loser_score))))
   end
 
-  def loses!(opponent)
-    update_attributes!(:rank => new_rank(opponent.rank, 0))
+  def loses!(opponent, loser_score = 0)
+    update_attributes!(:rank => new_rank(opponent.rank, (loser_score.to_f/(10.0+ loser_score))))
   end
 
   def wins_doubles!(params = {})
-    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => 1)))
+    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => (10.0/(10.0+ params[:loser_score])))))
   end
 
   def loses_doubles!(params = {})
-    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => 0))) 
+    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => (params[:loser_score].to_f/(10.0+ params[:loser_score]))))) 
   end
 
   private
