@@ -2,5 +2,6 @@
 <%= simple_form_for @game do |f| %>
 <%= f.association :winner %>
 <%= f.association :loser %>
+<%= f.input :loser_score, :collection => 0..10 %>
 <%= f.submit %>
 <% end %>
