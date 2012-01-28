@@ -1,7 +1,7 @@
 class PlayersController < InheritedResources::Base
   respond_to :html, :json
 
-  helper_method :recent_games
+  helper_method :recent_games, :scores_over_time
 
   def create
     super do |format|
@@ -16,6 +16,10 @@ class PlayersController < InheritedResources::Base
   end
 
   private
+
+  def scores_over_time
+    @player.score_history
+  end
 
   def collection
     @players ||= Player.by_rank

@@ -1,8 +1,43 @@
+<script type="text/javascript">
+  var score_hist;
+  $(document).ready(function() {
+    score_hist = new Highcharts.Chart({
+      chart: {
+        renderTo: 'rank_graph',
+        type: 'line'
+      },
+      title: {
+        text: "<%= "#{@player.name}'s Rank Over Time" %>"
+      },
+      xAxis: {
+        categories: [
+          <% scores_over_time.each do |hist| %>
+            <%= "'#{hist[:date].to_formatted_s(:short)}', " %>
+          <% end %>
+        ]
+      },
+      yAxis: {
+        title: {
+          text: 'ELO'
+        }
+      },
+      series: [{
+        name: 'Individual Rank',
+        data: [
+          <% scores_over_time.each do |hist| %>
+            <%= "#{hist[:rank]}, " %>
+          <% end %>
+        ]
+      }]
+    });
+  });
+</script>
 <h2 class="player">
   <%= @player.display_name %>
 </h2>
 <%= image_tag(gravatar_url_for(@player.email, :size => 100)) %>
-
+<div id="rank_graph">
+</div>
 <% content_for(:sidebar) do %>
   <% unless @player.games.count == 0 %>
     <p>

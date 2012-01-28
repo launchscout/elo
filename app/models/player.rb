@@ -15,6 +15,16 @@ class Player < ActiveRecord::Base
     order('rank desc')
   end
 
+  def score_history
+    history = []
+    Audit.where(:auditable_id => self.id).each do |audit|
+      if audit.audited_changes.has_key?("rank")
+        history << {:rank => audit.audited_changes["rank"][1], :date => audit.created_at}
+      end
+    end
+    history
+  end
+
   def games
     (Game.where("winner_id = :id OR loser_id = :id", {:id => id}).order('created_at desc') +
      DoublesGame.where("winner1_id = :id OR winner2_id = :id OR loser1_id = :id OR loser2_id = :id", {:id => id}).order('created_at desc')).sort_by(&:created_at).reverse
