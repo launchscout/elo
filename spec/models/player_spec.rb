@@ -21,6 +21,23 @@ describe Player do
     context "losing" do
       Then { player.new_rank(1550, 0).should == 1768 }
     end
+
+    context "with scores" do
+      Then { player.new_rank(1550, 0.9).should == 1813 }      
+    end
+  end
+
+  context "#wins!" do
+    Given(:player_a) { Player.create(:rank => 1800, :email => "a@example.com") }
+    Given(:player_b) { Player.create(:rank => 1550, :email => "b@example.com") }
+    Given(:loser_score) { 0 }
+    When { player_a.wins!(player_b, loser_score) }
+    Then { player_a.rank.should == 1818 }
+
+    context "with scores" do
+      Given(:loser_score) { 1 }
+      Then { player_a.rank.should == 1813 } 
+    end
   end
 
   context "#new_doubles_rank" do

@@ -62,19 +62,29 @@ class Player < ActiveRecord::Base
   end
 
   def wins!(opponent, loser_score = 0)
-    update_attributes!(:rank => new_rank(opponent.rank, (10.0/(10.0+ loser_score))))
+    update_attributes!(:rank => new_rank(opponent.rank, percentage_of_points_winning(loser_score)))
   end
 
   def loses!(opponent, loser_score = 0)
-    update_attributes!(:rank => new_rank(opponent.rank, (loser_score.to_f/(10.0+ loser_score))))
+    update_attributes!(:rank => new_rank(opponent.rank, percentage_of_points_losing(loser_score)))
   end
 
   def wins_doubles!(params = {})
-    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => (10.0/(10.0+ params[:loser_score])))))
+    update_attributes!(:doubles_rank =>
+                       new_doubles_rank(params.merge(:score => percentage_of_points_winning(params[:loser_score]))))
   end
 
   def loses_doubles!(params = {})
-    update_attributes!(:doubles_rank => new_doubles_rank(params.merge(:score => (params[:loser_score].to_f/(10.0+ params[:loser_score]))))) 
+    update_attributes!(:doubles_rank =>
+                       new_doubles_rank(params.merge(:score => percentage_of_points_losing(params[:loser_score])))) 
+  end
+
+  def percentage_of_points_winning(loser_score = 0.0)
+    10.0 / (10.0 + loser_score.to_f)
+  end
+
+  def percentage_of_points_losing(loser_score = 0.0)
+    loser_score.to_f / (10.0 + loser_score.to_f)
   end
 
   private
