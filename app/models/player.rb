@@ -61,6 +61,18 @@ class Player < ActiveRecord::Base
     1 / ( 10**(-diff.to_f/F_RATING_INTERVAL_SCALE_WEIGHT.to_f) + 1)
   end
 
+  def margin(player)
+    # percentage of points scored needs to exceed We for your rank to go up.
+    we = win_expectancy(rank - player.rank)
+    if we > 0.50
+      # greater than even odds to win
+      10 - ((10.0 - 10.0*we) / we).round
+    else
+      # less than even odds to win
+      ((10.0*we)/(1.0 - we)).round - 10
+    end
+  end
+  
   def wins!(opponent, loser_score = 0)
     update_attributes!(:rank => new_rank(opponent.rank, percentage_of_points_winning(loser_score)))
   end

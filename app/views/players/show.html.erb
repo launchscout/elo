@@ -38,12 +38,22 @@
 <%= image_tag(gravatar_url_for(@player.email, :size => 100)) %>
 <div id="rank_graph">
 </div>
+
+<h3>Margins</h4>
+<p>This is how many points the rankings say you should win (or lose)
+  by. If you don't beat the margin, your score will go down</p>
+<ul>
+<% other_players.each do |player| -%>
+<li><%= link_to player.display_name, player %>(<%= player.rank %>): <%= @player.margin(player) %></li>
+<% end -%>
+</ul>
+
 <% content_for(:sidebar) do %>
   <% unless @player.games.count == 0 %>
     <p>
-    <b>Singles: </b><%= @player.singles_wins %>-<%= @player.singles_losses %>
-    <br/>
-    <b>Doubles: </b><%= @player.doubles_wins %>-<%= @player.doubles_losses %>
+    <b>Singles: </b><%= @player.singles_wins %>-<%= @player.singles_losses %> <br/>
+    <b>Doubles: </b><%= @player.doubles_wins %>-<%= @player.doubles_losses %> <br />
+    <b>Rank: </b><%= @player.rank %>/<%= @player.doubles_rank %>
     </p>
   
   <% end %>

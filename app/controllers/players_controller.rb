@@ -1,7 +1,7 @@
 class PlayersController < InheritedResources::Base
   respond_to :html, :json
 
-  helper_method :recent_games, :scores_over_time
+  helper_method :recent_games, :scores_over_time, :other_players
 
   def create
     super do |format|
@@ -27,5 +27,9 @@ class PlayersController < InheritedResources::Base
 
   def recent_games
     (Game.all + DoublesGame.all).sort_by(&:created_at).reverse
+  end
+
+  def other_players
+    Player.all(:order => "rank DESC") - [@player]
   end
 end
