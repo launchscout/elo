@@ -19,7 +19,7 @@ class Player < ActiveRecord::Base
     history = []
     Audit.where(:auditable_id => self.id).each do |audit|
       if audit.audited_changes.has_key?("rank")
-        history << {:rank => audit.audited_changes["rank"][1], :date => audit.created_at}
+        history << {:rank => Array(audit.audited_changes["rank"])[-1], :date => audit.created_at}
       end
     end
     history
