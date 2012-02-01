@@ -1,6 +1,6 @@
 <li class="game single">
-  <span class="winner"><%= game.winner.display_name %></span> beat 
-  <span class="loser"><%= game.loser.display_name %></span> by
+  <span class="winner"><% game.winners.each do |winner| %><%= winner.display_name %> <% end %></span> beat 
+  <span class="loser"><% game.losers.each do |loser| %><%= loser.display_name %> <% end %></span> by
   <span class="score"><%= 10 - game.loser_score.to_i %> points
   <abbr class="timeago" title="<%= game.created_at.iso8601 %>"><%= game.created_at.to_s(:long) %></abbr>
   (<%= link_to "X", game_path(game), :method => :delete %>)

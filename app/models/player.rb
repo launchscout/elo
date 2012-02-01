@@ -31,11 +31,11 @@ class Player < ActiveRecord::Base
   end
 
   def singles_wins
-    Game.find_all_by_winner_id( id ).count 
+    GameWinner.find_all_by_winner_id( id ).count 
   end
 
   def singles_losses
-    Game.find_all_by_loser_id( id ).count 
+    GameLoser.find_all_by_loser_id( id ).count 
   end
 
   def doubles_wins
