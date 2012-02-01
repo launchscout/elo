@@ -26,6 +26,7 @@ group :development, :test do
   gem 'rspec-rails', :require => 'rspec/rails'
   gem 'rspec-given', :require => 'rspec/given'
   gem 'heroku'
+  gem 'taps'
 end
 
 group :production do

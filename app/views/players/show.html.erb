@@ -7,7 +7,7 @@
         type: 'line'
       },
       title: {
-        text: "<%= "#{@player.name}'s Rank Over Time" %>"
+        text: "<%= %{#{@player.name}'s Rank Over Time} %>"
       },
       xAxis: {
         categories: [
@@ -24,9 +24,17 @@
       series: [{
         name: 'Individual Rank',
         data: [
-          <% scores_over_time.each do |hist| %>
-            <%= "#{hist[:rank]}, " %>
-          <% end %>
+          <%= scores_over_time.map.with_index {|hist,i|
+                hist[:rank] && [i,hist[:rank]]
+              }.compact.map{|_|_.inspect}.join(', ') %>
+        ]
+      },
+      {
+        name: 'Doubles Rank',
+        data: [
+          <%= scores_over_time.map.with_index {|hist,i|
+                hist[:doubles_rank] && [i,hist[:doubles_rank]]
+              }.compact.map{|_|_.inspect}.join(', ') %>
         ]
       }]
     });
