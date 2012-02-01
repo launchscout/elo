@@ -1,6 +1,6 @@
 <%= simple_form_for @player do |f| %>
   <%= f.input :email %>
   <%= f.input :name, :required => false %>
-  <%= f.input :rank, :hint => "Initial novice rating is 250" %>
+  <%= f.input :rank, :hint => "Initial Novice rating is 250, Novice-Elite is 750" %>
   <%= f.submit 'Submit' %>
 <% end -%>

@@ -17,6 +17,10 @@ class PlayersController < InheritedResources::Base
 
   private
 
+  def build_resource
+    @player ||= Player.new(:rank => 500)
+  end
+
   def scores_over_time
     @player.score_history
   end
