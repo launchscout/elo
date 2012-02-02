@@ -1,7 +1,13 @@
 <h2>New Game</h2>
 <%= simple_form_for @game do |f| %>
-<%= f.association :players %>
-<%= f.association :players %>
+  <%= f.fields_for :outcomes do |winner_form| %>
+    <%= winner_form.input :player_id, :collection => Player.all, :label => "Winner" %> 
+    <%= winner_form.input :win, :as => :boolean, :input_html => { :checked => true, :style => 'display:none' }, :label => false %> 
+  <% end %>
+  <%= f.fields_for :outcomes do |loser_form| %>
+    <%= loser_form.input :player_id , :collection => Player.all, :label => "Loser" %> 
+    <%= loser_form.input :win, :as => :boolean, :input_html => { :style => 'display:none' }, :label => false %> 
+  <% end %>
 <%= f.input :loser_score, :collection => 0..10 %>
 <%= f.submit %>
 <% end %>

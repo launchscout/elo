@@ -26,24 +26,23 @@ class Player < ActiveRecord::Base
   end
 
   def games
-    (Game.where("winner_id = :id OR loser_id = :id", {:id => id}).order('created_at desc') +
-     DoublesGame.where("winner1_id = :id OR winner2_id = :id OR loser1_id = :id OR loser2_id = :id", {:id => id}).order('created_at desc')).sort_by(&:created_at).reverse
+    Game.all.select { |game| game.outcomes.any? { |outcome| outcome.player == self }}
   end
 
   def singles_wins
-    GameWinner.find_all_by_winner_id( id ).count 
+    Outcome.singles_wins.select { |outcome| outcome.player == self }
   end
 
   def singles_losses
-    GameLoser.find_all_by_loser_id( id ).count 
+    Outcome.singles_losses.select { |outcome| outcome.player == self }
   end
 
   def doubles_wins
-    DoublesGame.find_all_by_winner1_id( id ).count + DoublesGame.find_all_by_winner2_id( id ).count 
+    Outcome.doubles_wins.select { |outcome| outcome.player == self }
   end
 
   def doubles_losses
-    DoublesGame.find_all_by_loser1_id( id ).count + DoublesGame.find_all_by_loser2_id( id ).count 
+    Outcome.doubles_losses.select { |outcome| outcome.player == self }
   end
 
   def new_rank(opponent_rank, score, avg_rank = nil, attr = :rank)

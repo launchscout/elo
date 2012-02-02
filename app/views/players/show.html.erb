@@ -41,9 +41,9 @@
 <% content_for(:sidebar) do %>
   <% unless @player.games.count == 0 %>
     <p>
-    <b>Singles: </b><%= @player.singles_wins %>-<%= @player.singles_losses %>
+    <b>Singles: </b><%= @player.singles_wins.count %>-<%= @player.singles_losses.count %>
     <br/>
-    <b>Doubles: </b><%= @player.doubles_wins %>-<%= @player.doubles_losses %>
+    <b>Doubles: </b><%= @player.doubles_wins.count %>-<%= @player.doubles_losses.count %>
     </p>
   
   <% end %>
