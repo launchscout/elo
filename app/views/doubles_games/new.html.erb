@@ -1,8 +1,0 @@
-<h2>New Doubles Game</h2>
-<%= simple_form_for @doubles_game do |f| %>
-<% [:winner1, :winner2, :loser1, :loser2].each do |assoc| -%>
-<%= f.association assoc, :collection => @players %>
-<% end -%>
-  <%= f.input :loser_score, :collection => 0..10 %>
-  <%= f.submit %>
-<% end %>
