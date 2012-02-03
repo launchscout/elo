@@ -68,14 +68,15 @@ describe Player do
   context "singles stats" do
     Given(:player) { Player.new( :rank => 500, :email => 'a@b.c' ) }
     context "initially" do
-      Then { player.singles_wins.should == 0 }
-      Then { player.singles_losses.should == 0 }
+      Then { player.singles_wins.count.should == 0 }
+      Then { player.singles_losses.count.should == 0 }
     end
     context "after a game" do
         Given(:opponent) { Player.new( :rank => 500, :email => 'x@y.z' ) }
-        Given!(:game) { Game.create( :winner => player, :loser => opponent ) }
-        Then { player.singles_wins.should == 1 }
-        Then { opponent.singles_losses.should == 1 }
+        Given!(:game) { Game.create( :outcomes => [ Outcome.create( :player => player, :win => 1 ),
+                                                    Outcome.create( :player => opponent, :win => 0)])}
+        Then { player.singles_wins.count.should == 1 }
+        Then { opponent.singles_losses.count.should == 1 }
     end
   end
 
@@ -83,19 +84,23 @@ describe Player do
     Given(:player) { Player.new(:rank => 500, :email => 'a@b.c') }
     Given(:partner) { Player.new(:rank => 500, :email => 'b@c.d') }
     context "initially" do
-      Then { player.doubles_wins.should == 0 }
-      Then { partner.doubles_wins.should == 0 }
-      Then { player.doubles_losses.should == 0 }
-      Then { partner.doubles_losses.should == 0 }
+      Then { player.doubles_wins.count.should == 0 }
+      Then { partner.doubles_wins.count.should == 0 }
+      Then { player.doubles_losses.count.should == 0 }
+      Then { partner.doubles_losses.count.should == 0 }
     end
     context "after a game" do
         Given(:opponent) { Player.new(:rank => 500, :email => 'x@y.z') }
         Given(:opponent_partner) { Player.new(:rank => 500, :email => 'w@x.y') }
         Given!(:game) { DoublesGame.create( :winner1 => player, :winner2 => partner, :loser1 => opponent, :loser2 => opponent_partner ) }
-        Then { player.doubles_wins.should == 1 }
-        Then { partner.doubles_wins.should == 1 }
-        Then { opponent.doubles_losses.should == 1 }
-        Then { opponent_partner.doubles_losses.should == 1 }
+        Given!(:game) { Game.create( :outcomes => [ Outcome.create( :player => player, :win => 1 ),
+                                                    Outcome.create( :player => partner, :win => 1 ),
+                                                    Outcome.create( :player => opponent, :win => 0 ),
+                                                    Outcome.create( :player => opponent_partner, :win => 0)])}
+        Then { player.doubles_wins.count.should == 1 }
+        Then { partner.doubles_wins.count.should == 1 }
+        Then { opponent.doubles_losses.count.should == 1 }
+        Then { opponent_partner.doubles_losses.count.should == 1 }
     end
   end
 
