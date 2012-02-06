@@ -4,7 +4,10 @@ class PlayersController < InheritedResources::Base
   helper_method :recent_games, :scores_over_time, :other_players
 
   def create
-    super do |format|
+    @player = Player.new(params[:player])
+    @player.doubles_rank = @player.rank
+    @player.save
+    respond_to do |format|
       format.html { redirect_to players_path }
     end
   end
