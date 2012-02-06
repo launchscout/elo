@@ -4,10 +4,7 @@ class PlayersController < InheritedResources::Base
   helper_method :recent_games, :scores_over_time, :other_players
 
   def create
-    @player = Player.new(params[:player])
-    @player.doubles_rank = @player.rank
-    @player.save
-    respond_to do |format|
+    super do |format|
       format.html { redirect_to players_path }
     end
   end
@@ -21,7 +18,13 @@ class PlayersController < InheritedResources::Base
   private
 
   def build_resource
-    @player ||= Player.new(:rank => 500)
+    rp = resource_params
+    if rp[0].has_key?(:rank)
+      rp[0][:doubles_rank] ||= rp[0][:rank]
+    else
+      rp[0].update({ :rank => 750, :doubles_rank => 750 })
+    end
+    @player ||= Player.new(*rp)
   end
 
   def scores_over_time

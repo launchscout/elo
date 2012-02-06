@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -33,18 +34,33 @@ ActiveRecord::Schema.define(:version => 20120202130037) do
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
+  create_table "doubles_games", :force => true do |t|
+    t.integer   "winner1_id"
+    t.integer   "winner2_id"
+    t.integer   "loser1_id"
+    t.integer   "loser2_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "loser_score", :default => 0
+  end
+
+  add_index "doubles_games", ["loser1_id"], :name => "index_doubles_games_on_loser1_id"
+  add_index "doubles_games", ["loser2_id"], :name => "index_doubles_games_on_loser2_id"
+  add_index "doubles_games", ["winner1_id"], :name => "index_doubles_games_on_winner1_id"
+  add_index "doubles_games", ["winner2_id"], :name => "index_doubles_games_on_winner2_id"
+
   create_table "games", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "loser_score", :default => 0
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "loser_score", :default => 0
   end
 
   create_table "outcomes", :force => true do |t|
-    t.integer  "player_id"
-    t.integer  "game_id"
-    t.boolean  "win"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "player_id"
+    t.integer   "game_id"
+    t.boolean   "win"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   add_index "outcomes", ["game_id"], :name => "index_outcomes_on_game_id"
