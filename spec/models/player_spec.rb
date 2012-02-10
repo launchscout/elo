@@ -12,6 +12,19 @@ describe Player do
     Then { dup.should have(1).error_on(:email) }
   end
 
+  context "#games" do
+    Given(:player_a) { Player.create(:email => "a@example.com", :rank => 750) }
+    Given(:player_b) { Player.create(:email => "b@example.com", :rank => 750) }
+    When(:game1) { Game.create(:outcomes => [Outcome.create(:player => player_a, :win => true),
+                                              Outcome.create(:player => player_b, :win => false)],
+                                :loser_score => 5 )}
+    When(:game2) { Game.create(:outcomes => [Outcome.create(:player => player_a, :win => true),
+                                              Outcome.create(:player => player_b, :win => false)],
+                               :loser_score => 4 )}
+    # sorted most recent first
+    Then { player_a.games.should == [game2, game1] }
+  end
+
   context "#new_rank" do
     Given(:player) { Player.new(:rank => 1800) }
     context "winning" do
