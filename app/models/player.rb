@@ -29,7 +29,7 @@ class Player < ActiveRecord::Base
   end
 
   def games
-    Game.all.select { |game| game.outcomes.any? { |outcome| outcome.player == self }}
+    Game.order("created_at DESC").all.select { |game| game.outcomes.any? { |outcome| outcome.player == self }}
   end
 
   def singles_wins
