@@ -48,11 +48,11 @@
 </div>
 
 <h3>Margins</h4>
-<p>This is the expected loser score. If the number is negative, it
-  means you should lose with this score. If you are expected to win,
-  but you allow them to score this many points (or more), your score
-  will go down. Inversely, if you're expected to lose and score more
-  than this many points, your score will go up.</p>
+<p>This is the expected spread. If the number is negative, it
+  means you should lose by this amount. If you are expected to win,
+  but they score more points than the margin allows, your score will 
+  go down. Inversely, if you're expected to lose and score more
+  points than the spread predicted, your score will go up.</p>
 <ul>
 <% other_players.each do |player| -%>
 <li><%= link_to player.display_name, player %>(<%= player.rank %>): <%= @player.margin(player) %></li>
