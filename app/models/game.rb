@@ -1,5 +1,7 @@
 class Game < ActiveRecord::Base
   has_many :outcomes, :dependent => :destroy
+  has_many :winners, :through => :outcomes, :source => :player, :conditions => {"outcomes.win" => true}
+  has_many :losers, :through => :outcomes, :source => :player, :conditions => {"outcomes.win" => false}
 
   accepts_nested_attributes_for :outcomes
 
@@ -7,14 +9,6 @@ class Game < ActiveRecord::Base
 
   def self.today
     where(:created_at => (Date.today + 0.hours)..(Date.today + 23.hours + 59.minutes))
-  end
-
-  def winners
-    (outcomes.select { |outcome| outcome.win }).collect {|outcome| outcome.player }
-  end
-  
-  def losers
-    (outcomes.select { |outcome| outcome.loss }).collect { |outcome| outcome.player }
   end
 
   private

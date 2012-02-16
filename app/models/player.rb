@@ -1,5 +1,8 @@
 class Player < ActiveRecord::Base
 
+  has_many :outcomes
+  has_many :games, :through => :outcomes, :order => "created_at DESC"
+  
   acts_as_audited :except => [:email, :name]
 
   validates_uniqueness_of :email
@@ -28,25 +31,7 @@ class Player < ActiveRecord::Base
     history
   end
 
-  def games
-    Game.order("created_at DESC").all.select { |game| game.outcomes.any? { |outcome| outcome.player == self }}
-  end
-
-  def singles_wins
-    Outcome.singles_wins.select { |outcome| outcome.player == self }
-  end
-
-  def singles_losses
-    Outcome.singles_losses.select { |outcome| outcome.player == self }
-  end
-
-  def doubles_wins
-    Outcome.doubles_wins.select { |outcome| outcome.player == self }
-  end
-
-  def doubles_losses
-    Outcome.doubles_losses.select { |outcome| outcome.player == self }
-  end
+  delegate :singles_wins, :doubles_wins, :singles_losses, :doubles_losses, :to => :outcomes
 
   def new_rank(opponent_rank, score, avg_rank = nil, attr = :rank)
     avg_rank ||= rank
