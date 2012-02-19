@@ -1,0 +1,17 @@
+common: &common
+  adapter: postgresql
+  encoding: unicode
+  min_messages: warning
+  pool: 5
+
+development:
+  <<: *common
+  database: elo_dev
+
+test:
+  <<: *common
+  database: elo_test
+
+production:
+  <<: *common
+  database: elo_production
