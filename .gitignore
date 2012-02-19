@@ -6,3 +6,4 @@ tmp/
 .sass-cache/
 vendor/ruby
 bin
+pg/
