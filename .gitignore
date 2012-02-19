@@ -1,7 +1,9 @@
 .bundle
 db/*.sqlite3
+config/database.yml
 log/*.log
 tmp/
 .sass-cache/
 vendor/ruby
 bin
+pg/

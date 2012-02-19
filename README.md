@@ -37,5 +37,29 @@ and decreases based on the percentage of points won or lost. This has the
 effect of causing the winner of the game to potentially lose ranking if the
 margin by which they won doesn't exceed the Win Expectancy.
 
+## Setup
+
+[@cdmwebs](https://github.com/cdmwebs) added some new-fangled developer stuff
+using per-app pg instances with [foreman](https://github.com/ddollar/foreman).
+You can read more about it in this [super long tweet](http://twitter.com/pvh/status/160183080693411840)
+by [@pvh](https://twitter.com/pvh).
+
+Here's how to get it running:
+
+```sh
+initdb pg
+foreman start -f Procfile.dev
+createdb elo_dev
+```
+
+Pretty nifty, huh? Now you have your very own postgres instance running just for
+this application. No daemons in the background opening all your ports and eating
+cycles for no reason. You can see all the logs in one place and you're even
+keeping your data in the same location, too!
+
+Now you can move on to the regular old Rails setup.
+
+    rake db:setup
+
 [elo]: http://en.wikipedia.org/wiki/Elo_rating_system
 [bonzini]: http://www.bonziniusa.com/foosball/tournament/TournamentRankingSystem.html
