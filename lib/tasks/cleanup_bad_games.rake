@@ -21,6 +21,6 @@ task :cleanup_old_games => [:environment] do
 
   # delete all games from before we started tracking the score
   Participant.where(["created_at < ?", started_scoring_games_on]).each do |p|
-    Game.destroy(p.game_id)
+    Game.destroy(p.game_id) rescue nil
   end
 end
