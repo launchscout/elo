@@ -1,4 +1,7 @@
 class PlayersDoubleRank < ActiveRecord::Migration
+  class Player < ActiveRecord::Base
+  end
+  
   def up
     add_column :players, :doubles_rank, :integer
     Player.reset_column_information

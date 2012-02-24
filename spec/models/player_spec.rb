@@ -15,11 +15,11 @@ describe Player do
   context "#games" do
     Given(:player_a) { Player.create(:email => "a@example.com", :rank => 750) }
     Given(:player_b) { Player.create(:email => "b@example.com", :rank => 750) }
-    When(:game1) { Game.create(:outcomes => [Outcome.create(:player => player_a, :win => true),
-                                              Outcome.create(:player => player_b, :win => false)],
+    When(:game1) { Game.create(:participants => [Participant.create(:player => player_a, :win => true),
+                                              Participant.create(:player => player_b, :win => false)],
                                 :loser_score => 5 )}
-    When(:game2) { Game.create(:outcomes => [Outcome.create(:player => player_a, :win => true),
-                                              Outcome.create(:player => player_b, :win => false)],
+    When(:game2) { Game.create(:participants => [Participant.create(:player => player_a, :win => true),
+                                              Participant.create(:player => player_b, :win => false)],
                                :loser_score => 4 )}
     # sorted most recent first
     Then { player_a.games.should == [game2, game1] }
@@ -86,34 +86,45 @@ describe Player do
     end
     context "after a game" do
         Given(:opponent) { Player.new( :rank => 500, :email => 'x@y.z' ) }
-        Given!(:game) { Game.create( :outcomes => [ Outcome.create( :player => player, :win => 1 ),
-                                                    Outcome.create( :player => opponent, :win => 0)])}
+        Given!(:game) { Game.create( :participants => [ Participant.create( :player => player, :win => 1 ),
+                                                    Participant.create( :player => opponent, :win => 0)])}
         Then { player.singles_wins.count.should == 1 }
         Then { opponent.singles_losses.count.should == 1 }
     end
   end
 
   context "doubles stats" do
-    Given(:player) { Player.new(:rank => 500, :email => 'a@b.c') }
-    Given(:partner) { Player.new(:rank => 500, :email => 'b@c.d') }
+    Given(:player) { Player.create(:rank => 500, :email => 'a@b.c') }
+    Given(:partner) { Player.create(:rank => 500, :email => 'b@c.d') }
     context "initially" do
       Then { player.doubles_wins.count.should == 0 }
       Then { partner.doubles_wins.count.should == 0 }
       Then { player.doubles_losses.count.should == 0 }
       Then { partner.doubles_losses.count.should == 0 }
     end
+    
     context "after a game" do
-        Given(:opponent) { Player.new(:rank => 500, :email => 'x@y.z') }
-        Given(:opponent_partner) { Player.new(:rank => 500, :email => 'w@x.y') }
-        Given!(:game) { DoublesGame.create( :winner1 => player, :winner2 => partner, :loser1 => opponent, :loser2 => opponent_partner ) }
-        Given!(:game) { Game.create( :outcomes => [ Outcome.create( :player => player, :win => 1 ),
-                                                    Outcome.create( :player => partner, :win => 1 ),
-                                                    Outcome.create( :player => opponent, :win => 0 ),
-                                                    Outcome.create( :player => opponent_partner, :win => 0)])}
-        Then { player.doubles_wins.count.should == 1 }
-        Then { partner.doubles_wins.count.should == 1 }
-        Then { opponent.doubles_losses.count.should == 1 }
-        Then { opponent_partner.doubles_losses.count.should == 1 }
+      Given(:opponent) { Player.create(:rank => 500, :email => 'x@y.z') }
+      Given(:opponent_partner) { Player.create(:rank => 500, :email => 'w@x.y') }
+
+      # This is how accepts nested attributes formats the fields
+      # {"participants_attributes"=>{"0"=>{"player_id"=>"1", "win"=>"1"}, "1"=>{"player_id"=>"3", "win"=>"1"}, "2"=>{"player_id"=>"4", "win"=>"0"}, "3"=>{"player_id"=>"5", "win"=>"0"}}, "loser_score"=>"1"}
+      Given(:participants) {
+        [
+         { "player_id" => player.id, "win" => "1" },
+         { "player_id" => partner.id, "win" => "1" },
+         { "player_id" => opponent.id, "win" => "0" },
+         { "player_id" => opponent_partner.id, "win" => "0" },
+        ]
+      }
+
+      When(:game) { Game.create!( :participants_attributes => participants, :loser_score => 1 ) }
+      Then { game.participants.count.should == 4 }
+      Then { game.reload.participant_count.should == 4 }
+      Then { player.reload.doubles_wins.count.should == 1 }
+      Then { partner.reload.doubles_wins.count.should == 1 }
+      Then { opponent.reload.doubles_losses.count.should == 1 }
+      Then { opponent_partner.reload.doubles_losses.count.should == 1 }
     end
   end
 

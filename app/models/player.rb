@@ -1,7 +1,9 @@
 class Player < ActiveRecord::Base
 
-  has_many :outcomes
-  has_many :games, :through => :outcomes, :order => "created_at DESC"
+  has_many :participations, :class_name => "Participant", :inverse_of => :player
+  
+  has_many :games, :through => :participations, :order => "created_at DESC"
+  belongs_to :last_game, :class_name => "Game"
   
   acts_as_audited :except => [:email, :name]
 
@@ -9,6 +11,21 @@ class Player < ActiveRecord::Base
   validates_presence_of :email, :rank, :doubles_rank
   
   before_validation :set_doubles_rank
+
+  [:singles, :doubles].each do |count|
+    define_method("#{count}_games") do
+      participations.send(count)
+    end
+    [:wins, :losses].each do |outcome|
+      define_method("#{count}_#{outcome}") do
+        participations.send(outcome).send(count)
+      end
+
+      define_method(outcome) do
+        participations.send(outcome)
+      end
+    end
+  end
   
   def display_name
     name.blank? ? email : name.gsub(/ (.*)$/) { " " + $&.split(//)[1] + "." }
@@ -31,9 +48,8 @@ class Player < ActiveRecord::Base
     history
   end
 
-  delegate :singles_wins, :doubles_wins, :singles_losses, :doubles_losses, :to => :outcomes
-
   def new_rank(opponent_rank, score, avg_rank = nil, attr = :rank)
+    Rails.logger.debug("Player #{name}#new_rank: '#{opponent_rank}', '#{score}', '#{avg_rank}', '#{attr}'")
     avg_rank ||= rank
     self.send(attr) + (K_RATING_COEFFICIENT*(score - win_expectancy(avg_rank - opponent_rank))).round
   end
