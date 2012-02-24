@@ -3,7 +3,7 @@ class GamesController < InheritedResources::Base
 
   def new
     @game = Game.new
-    params[:outcome_pairs].to_i.times { @game.outcomes.build } 
+    params[:participant_pairs].to_i.times { @game.participants.build } 
   end
 
   def create
