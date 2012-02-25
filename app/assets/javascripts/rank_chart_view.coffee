@@ -13,6 +13,8 @@ class window.RankChartView
         text: "Rank Over Time"
       xAxis:
         categories: @dates
+        labels:
+          step: 25
       yAxis:
         title:
           text: 'ELO'
