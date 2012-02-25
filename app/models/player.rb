@@ -14,15 +14,15 @@ class Player < ActiveRecord::Base
 
   [:singles, :doubles].each do |count|
     define_method("#{count}_games") do
-      participations.send(count)
+      participations.joins(:game).order("games.created_at DESC").send(count).map(&:game)
     end
     [:wins, :losses].each do |outcome|
       define_method("#{count}_#{outcome}") do
-        participations.send(outcome).send(count)
+        participations.joins(:game).order("games.created_at DESC").send(outcome).send(count).map(&:game)
       end
 
       define_method(outcome) do
-        participations.send(outcome)
+        participations.joins(:game).order("games.created_at DESC").send(outcome).map(&:game)
       end
     end
   end
@@ -48,16 +48,21 @@ class Player < ActiveRecord::Base
     history
   end
 
-  def new_rank(opponent_rank, score, avg_rank = nil, attr = :rank)
-    Rails.logger.debug("Player #{name}#new_rank: '#{opponent_rank}', '#{score}', '#{avg_rank}', '#{attr}'")
-    avg_rank ||= rank
-    self.send(attr) + (K_RATING_COEFFICIENT*(score - win_expectancy(avg_rank - opponent_rank))).round
+  def update_rank!(params = {})
+    rank = params[:attr] || :rank
+    update_attributes(rank => new_rank(params))
   end
+  
+  def new_rank(params = {});
+    params[:attr] ||= :rank
+    params[:my_rank] ||= rank
+    Rails.logger.debug("Player #{name}#new_rank: #{params.inspect}")
 
-  def new_doubles_rank(params = {})
-    opponent_rank = params[:opponents].map(&:doubles_rank).inject(0.0) { |sum,rank| sum + rank }.to_f / 2.0
-    avg_rank = (doubles_rank + params[:partner].doubles_rank).to_f/2.0
-    new_rank(opponent_rank, params[:score], avg_rank, :doubles_rank)
+    diff = params[:my_rank] - params[:opponent_rank]
+    we = win_expectancy(diff)
+    delta = (K_RATING_COEFFICIENT * (params[:score] -  we)).round
+    Rails.logger.debug("Player #{name}#new_rank: #{delta} = (#{K_RATING_COEFFICIENT} * (#{params[:score]} - #{we}))")
+    self.send(params[:attr]) + delta
   end
 
   def win_expectancy(diff)
@@ -76,32 +81,6 @@ class Player < ActiveRecord::Base
     end
   end
   
-  def wins!(opponent, loser_score = 0)
-    update_attributes!(:rank => new_rank(opponent.rank, percentage_of_points_winning(loser_score)))
-  end
-
-  def loses!(opponent, loser_score = 0)
-    update_attributes!(:rank => new_rank(opponent.rank, percentage_of_points_losing(loser_score)))
-  end
-
-  def wins_doubles!(params = {})
-    update_attributes!(:doubles_rank =>
-                       new_doubles_rank(params.merge(:score => percentage_of_points_winning(params[:loser_score]))))
-  end
-
-  def loses_doubles!(params = {})
-    update_attributes!(:doubles_rank =>
-                       new_doubles_rank(params.merge(:score => percentage_of_points_losing(params[:loser_score])))) 
-  end
-
-  def percentage_of_points_winning(loser_score = 0.0)
-    10.0 / (10.0 + loser_score.to_f)
-  end
-
-  def percentage_of_points_losing(loser_score = 0.0)
-    loser_score.to_f / (10.0 + loser_score.to_f)
-  end
-
   private
 
   def set_doubles_rank
