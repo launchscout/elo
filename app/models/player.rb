@@ -36,16 +36,7 @@ class Player < ActiveRecord::Base
   end
 
   def score_history
-    history = []
-    Audit.where(:auditable_id => self.id).each do |audit|
-      if (changes = audit.audited_changes).has_key?("rank") || changes.has_key?("doubles_rank")
-        entry = { :date => audit.created_at, }
-        entry[        :rank] = Array(changes[        "rank"])[-1] if changes.has_key?(        "rank")
-        entry[:doubles_rank] = Array(changes["doubles_rank"])[-1] if changes.has_key?("doubles_rank")
-        history << entry
-      end
-    end
-    history
+    @score_history ||= ScoreHistory.new(self).history
   end
 
   def update_rank!(params = {})
