@@ -6,7 +6,8 @@ class Player < ActiveRecord::Base
   belongs_to :last_game, :class_name => "Game"
   
   acts_as_audited :except => [:email, :name]
-
+  has_associated_audits
+  
   validates_uniqueness_of :email
   validates_presence_of :email, :rank, :doubles_rank
   

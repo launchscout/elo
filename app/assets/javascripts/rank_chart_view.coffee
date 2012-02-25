@@ -30,6 +30,6 @@ class window.RankChartView
     data: _.map(@doublesData, (item)=> @point(item))
 
   point: (item)->
-    name: "#{item.winners} beat #{item.losers} by #{item.margin} (Δ#{item.change})"
+    name: "#{item.winner_names} beat #{item.loser_names} by #{item.margin} (Δ#{item.change})"
     x: _.indexOf(@dates, @formatDate(item.date))
     y: item.rank || item.doubles_rank

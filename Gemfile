@@ -23,6 +23,7 @@ gem 'simple_form'
 
 group :development, :test do
   gem 'sqlite3'
+  gem 'flexmock'
   gem 'rspec-rails', :require => 'rspec/rails'
   gem 'rspec-given', :require => 'rspec/given'
   gem 'heroku'
