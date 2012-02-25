@@ -41,6 +41,7 @@ class Player < ActiveRecord::Base
 
   def update_rank!(params = {})
     rank = params[:attr] || :rank
+    self.last_game_id = params[:game].id if params[:game]
     update_attributes(rank => new_rank(params))
   end
   

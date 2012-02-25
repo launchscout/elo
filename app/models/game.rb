@@ -47,10 +47,12 @@ class Game < ActiveRecord::Base
     winners.each { |winner| winner.update_rank!(:opponent_rank => losers_rank,
                                                 :my_rank => winners_rank,
                                                 :score => percentage_of_points_winning,
+                                                :game => self,
                                                 :attr => rank) }
     losers.each { |loser|    loser.update_rank!(:opponent_rank => winners_rank,
                                                 :my_rank => losers_rank,
                                                 :score => percentage_of_points_losing,
+                                                :game => self,
                                                 :attr => rank) }
   end
 

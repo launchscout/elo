@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120224153546) do
+ActiveRecord::Schema.define(:version => 20120225141316) do
 
   create_table "audits", :force => true do |t|
     t.integer   "auditable_id"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20120224153546) do
     t.timestamp "created_at"
     t.timestamp "updated_at"
     t.integer   "doubles_rank"
+    t.integer   "last_game_id"
   end
 
 end
