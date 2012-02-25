@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225141316) do
+ActiveRecord::Schema.define(:version => 20120225193704) do
 
   create_table "audits", :force => true do |t|
     t.integer   "auditable_id"
@@ -68,13 +68,14 @@ ActiveRecord::Schema.define(:version => 20120225141316) do
   add_index "participants", ["player_id"], :name => "index_outcomes_on_player_id"
 
   create_table "players", :force => true do |t|
-    t.string    "email"
-    t.integer   "rank"
-    t.string    "name"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "doubles_rank"
-    t.integer   "last_game_id"
+    t.string   "email"
+    t.integer  "rank"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "doubles_rank"
+    t.integer  "last_game_id"
+    t.integer  "last_expected_margin"
   end
 
 end

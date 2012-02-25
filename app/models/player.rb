@@ -43,6 +43,7 @@ class Player < ActiveRecord::Base
   def update_rank!(params = {})
     rank = params[:attr] || :rank
     self.last_game_id = params[:game].id if params[:game]
+    self.last_expected_margin = margin(params[:opponent_rank]) if params[:game] && params[:game].is_singles_game?
     update_attributes(rank => new_rank(params))
   end
   
@@ -63,8 +64,10 @@ class Player < ActiveRecord::Base
   end
 
   def margin(player)
+    opponent_rank = player
+    opponent_rank = player.rank if player.respond_to?(:rank)
     # percentage of points scored needs to exceed We for your rank to go up.
-    we = win_expectancy(rank - player.rank)
+    we = win_expectancy(rank - opponent_rank)
     if we > 0.50
       # greater than even odds to win
       10 - ((10.0 - 10.0*we) / we).round

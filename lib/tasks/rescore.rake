@@ -4,7 +4,7 @@ task :rescore, [:initial_score] => :environment do |t, args|
   Audit.delete_all
 
   Player.all.each do |player|
-    player.update_attributes({ :rank => initial_score, :doubles_rank => initial_score, })
+    player.update_attributes({ :rank => initial_score, :doubles_rank => initial_score, :last_expected_margin => 0 })
     player.save
   end
 

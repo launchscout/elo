@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class HistoricalGame
   include ActiveModel::Serialization
   
@@ -8,13 +9,20 @@ class HistoricalGame
   end
 
   GAME_ATTRIBUTES = [:winner_names, :loser_names, :margin]
-  PLAYER_ATTRIBUTES = ["rank", "doubles_rank"]
+  PLAYER_ATTRIBUTES = ["rank", "doubles_rank", "last_expected_margin"]
   def as_json(options = {})
-    attributes = {:date => date, :change => change}
+    attributes = {
+      :date => date,
+      :change => change,
+    }
     (GAME_ATTRIBUTES + PLAYER_ATTRIBUTES).each do |attr|
-      attributes[attr] = self.send(attr) if self.send(attr)
+      attributes[attr.gsub(/last_/,'')] = self.send(attr) if self.send(attr)
     end
     attributes
+  end
+
+  def description
+    "#{winner_names} beat #{loser_names} by #{margin}/#{last_expected_margin} (Δ#{change}) on #{date.to_formatted_s('%d-%m')}"
   end
   
   def date
