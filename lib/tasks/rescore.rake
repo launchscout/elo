@@ -8,6 +8,6 @@ task :rescore, [:initial_score] => :environment do |t, args|
     player.save
   end
 
-  Game.order("created_at ASC").each { |g| g.update_ranks }
+  Game.order("created_at ASC, id ASC").each { |g| g.update_ranks }
   
 end

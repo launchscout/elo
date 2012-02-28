@@ -16,7 +16,7 @@ class HistoricalGame
       :change => change,
     }
     (GAME_ATTRIBUTES + PLAYER_ATTRIBUTES).each do |attr|
-      attributes[attr.gsub(/last_/,'')] = self.send(attr) if self.send(attr)
+      attributes[attr.to_s.gsub(/last_/,'')] = self.send(attr) if self.send(attr)
     end
     attributes
   end

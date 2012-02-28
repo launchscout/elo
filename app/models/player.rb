@@ -40,6 +40,10 @@ class Player < ActiveRecord::Base
     @score_history ||= ScoreHistory.new(self).history
   end
 
+  def avg_games_per_day
+    (p.games.count / (p.games.first.created_at - p.games.last.created_at) / 3600 / 24).round
+  end
+  
   def update_rank!(params = {})
     rank = params[:attr] || :rank
     self.last_game_id = params[:game].id if params[:game]
