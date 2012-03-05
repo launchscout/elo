@@ -28,7 +28,7 @@ class PlayersController < InheritedResources::Base
   end
 
   def scores_over_time
-    @player.score_history
+    @player.score_history[-50,50]
   end
 
   def collection
