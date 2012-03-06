@@ -42,6 +42,16 @@ class HistoricalGame
     end
   end
 
+  def rank
+    return unless game.is_singles_game?
+    new_value("rank") || player.rank
+  end
+
+  def doubles_rank
+    return if game.is_singles_game?
+    new_value("doubles_rank") || player.doubles_rank
+  end
+  
   def change
     attr = rank ? "rank" : "doubles_rank"
     return 0 unless new_value(attr)
