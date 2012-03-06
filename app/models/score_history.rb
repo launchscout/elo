@@ -12,7 +12,7 @@ class ScoreHistory
 
   def audits
     @audits ||= player.audits.select do |audit|
-      (changes = audit.audited_changes).has_key?("rank") || changes.has_key?("doubles_rank")
+      audit.audited_changes.has_key?("last_game_id")
     end
   end
 end

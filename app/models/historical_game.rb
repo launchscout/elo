@@ -44,6 +44,7 @@ class HistoricalGame
 
   def change
     attr = rank ? "rank" : "doubles_rank"
+    return 0 unless new_value(attr)
     new_value(attr) - old_value(attr)
   end
   
