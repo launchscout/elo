@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.1.1'
 gem 'high_voltage'
 gem "acts_as_audited", "2.0.0"
+gem "rabl"
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
