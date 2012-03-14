@@ -2,7 +2,7 @@ class GamesController < InheritedResources::Base
   respond_to :html, :json
 
   def index
-    @games = Game.order('created_at desc').includes(:participants)
+    @games = Game.order('created_at desc').includes(:participants).limit(25)
   end
 
   def new
