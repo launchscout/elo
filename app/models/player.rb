@@ -1,6 +1,7 @@
 class Player < ActiveRecord::Base
 
   has_many :participations, :class_name => "Participant", :inverse_of => :player
+  has_and_belongs_to_many :leagues
   
   has_many :games, :through => :participations, :order => "created_at DESC"
   belongs_to :last_game, :class_name => "Game"
