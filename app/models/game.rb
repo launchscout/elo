@@ -2,6 +2,7 @@ class Game < ActiveRecord::Base
   has_many :participants, :dependent => :destroy
   has_many :winners, :through => :participants, :source => :player, :conditions => {"participants.win" => true}
   has_many :losers, :through => :participants, :source => :player, :conditions => {"participants.win" => false}
+  belongs_to :league
 
   accepts_nested_attributes_for :participants
 
