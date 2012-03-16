@@ -11,22 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225193704) do
+ActiveRecord::Schema.define(:version => 20120315234524) do
 
   create_table "audits", :force => true do |t|
-    t.integer   "auditable_id"
-    t.string    "auditable_type"
-    t.integer   "associated_id"
-    t.string    "associated_type"
-    t.integer   "user_id"
-    t.string    "user_type"
-    t.string    "username"
-    t.string    "action"
-    t.text      "audited_changes"
-    t.integer   "version",         :default => 0
-    t.string    "comment"
-    t.string    "remote_address"
-    t.timestamp "created_at"
+    t.integer  "auditable_id"
+    t.string   "auditable_type"
+    t.integer  "associated_id"
+    t.string   "associated_type"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.string   "username"
+    t.string   "action"
+    t.text     "audited_changes"
+    t.integer  "version",         :default => 0
+    t.string   "comment"
+    t.string   "remote_address"
+    t.datetime "created_at"
   end
 
   add_index "audits", ["associated_id", "associated_type"], :name => "associated_index"
@@ -35,13 +35,13 @@ ActiveRecord::Schema.define(:version => 20120225193704) do
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "doubles_games", :force => true do |t|
-    t.integer   "winner1_id"
-    t.integer   "winner2_id"
-    t.integer   "loser1_id"
-    t.integer   "loser2_id"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "loser_score", :default => 0
+    t.integer  "winner1_id"
+    t.integer  "winner2_id"
+    t.integer  "loser1_id"
+    t.integer  "loser2_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "loser_score", :default => 0
   end
 
   add_index "doubles_games", ["loser1_id"], :name => "index_doubles_games_on_loser1_id"
@@ -50,18 +50,35 @@ ActiveRecord::Schema.define(:version => 20120225193704) do
   add_index "doubles_games", ["winner2_id"], :name => "index_doubles_games_on_winner2_id"
 
   create_table "games", :force => true do |t|
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "loser_score",       :default => 0
-    t.integer   "participant_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "loser_score",       :default => 0
+    t.integer  "participant_count"
+    t.integer  "league_id"
   end
 
+  add_index "games", ["league_id"], :name => "index_games_on_league_id"
+
+  create_table "leagues", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "leagues_players", :id => false, :force => true do |t|
+    t.integer "league_id"
+    t.integer "player_id"
+  end
+
+  add_index "leagues_players", ["league_id", "player_id"], :name => "index_leagues_players_on_league_id_and_player_id"
+  add_index "leagues_players", ["player_id", "league_id"], :name => "index_leagues_players_on_player_id_and_league_id"
+
   create_table "participants", :force => true do |t|
-    t.integer   "player_id"
-    t.integer   "game_id"
-    t.boolean   "win"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.integer  "player_id"
+    t.integer  "game_id"
+    t.boolean  "win"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "participants", ["game_id"], :name => "index_outcomes_on_game_id"
