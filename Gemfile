@@ -4,6 +4,7 @@ gem 'rails', '3.1.1'
 gem 'high_voltage'
 gem "acts_as_audited", "2.0.0"
 gem "rabl"
+gem 'pg'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -23,7 +24,6 @@ gem 'inherited_resources'
 gem 'simple_form'
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'flexmock', :require => false
   gem 'rspec-rails', :require => 'rspec/rails'
   gem 'rspec-given', :require => 'rspec/given'
@@ -31,9 +31,6 @@ group :development, :test do
   gem 'taps'
 end
 
-group :production do
-  gem 'pg'
-end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
