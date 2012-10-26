@@ -28,7 +28,7 @@ class PlayersController < InheritedResources::Base
   end
 
   def scores_over_time
-    @player.score_history[-50,50]
+    @player.score_history.size > 50 ? @player.score_history[-50,50] : @player.score_history[2..-1]
   end
 
   def collection
