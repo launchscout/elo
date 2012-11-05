@@ -8,6 +8,7 @@ class Game < ActiveRecord::Base
 
   after_create :count_participants
   after_create :update_ranks
+  after_destroy :remove_audits
 
   def self.today
     where(:created_at => (Date.today + 0.hours)..(Date.today + 23.hours + 59.minutes))
@@ -69,5 +70,12 @@ class Game < ActiveRecord::Base
 
   def count_participants
     update_attributes(:participant_count => participants(true).count)
+  end
+
+  def remove_audits
+    # There's no direct tie between a player's audits and this game except through "last_game_id"
+    # So we have to purge all the audits related to this game so that the graphs can be drawn
+    audits = Audit.find_by_sql("select * from audits where audited_changes like '%#{id}%'")
+    audits.select { |a| a.audited_changes["last_game_id"].include?(id) }.map(&:delete)
   end
 end
