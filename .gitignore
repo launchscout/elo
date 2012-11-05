@@ -7,3 +7,5 @@ tmp/
 vendor/ruby
 bin
 pg/
+.DS_Store
+latest.pgbackup
