@@ -43,12 +43,12 @@ class HistoricalGame
   end
 
   def rank
-    return unless game.is_singles_game?
+    return if game and ! game.is_singles_game?
     new_value("rank") || player.rank
   end
 
   def doubles_rank
-    return if game.is_singles_game?
+    return if game and game.is_singles_game?
     new_value("doubles_rank") || player.doubles_rank
   end
   
@@ -72,7 +72,7 @@ class HistoricalGame
     return @game if @game
     return unless game_id = new_value("last_game_id")
     Rails.logger.debug("loading game #{game_id}")
-    @game = Game.find(game_id)
+    @game = Game.find_by_id(game_id) 
   end
     
   attr_accessor :player, :audit, :changes

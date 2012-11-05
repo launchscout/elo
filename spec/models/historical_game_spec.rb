@@ -25,4 +25,10 @@ describe HistoricalGame do
     When { player.update_attributes(:rank => 700) }
     Then { historical_game.change.should == -50 }
   end
+
+  context "deleting a game" do
+    When { game.destroy }
+    Then { historical_game.change.should == 0 }
+  end
+  
 end
