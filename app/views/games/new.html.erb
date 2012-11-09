@@ -9,6 +9,6 @@
     <%= loser_form.input :player_id , :collection => Player.order("rank DESC").all, :label => "Loser" %> 
     <%= loser_form.input :win, :as => :boolean, :input_html => { :style => 'display:none' }, :label => false %> 
   <% end %>
-<%= f.input :loser_score, :collection => 0..5 %>
+<%= f.input :loser_score, :collection => 0..4 %>
 <%= f.submit %>
 <% end %>
