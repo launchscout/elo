@@ -11,6 +11,7 @@ class GamesController < InheritedResources::Base
   end
 
   def create
+    params[:game][:loser_score] = "#{params[:game][:loser_score].to_i * 2}"
     super do |format|
       format.html { redirect_to players_path }
     end
