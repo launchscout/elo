@@ -1,0 +1,3 @@
+bundle install --path vendor --binstubs
+cp config/database.example.yml config/database.yml
+rake db:setup
