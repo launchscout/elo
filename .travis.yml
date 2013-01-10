@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - "1.9.3"
+before_install: gem install bundler --pre
+bundler_args: --local
+script:
+  - RAILS_ENV=test bundle exec rake db:setup --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rspec -fd spec
+before_script:
+  - psql -c 'create database elo_test;' -U postgres
+  - cp config/database.example.yml config/database.yml
