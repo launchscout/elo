@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.1.10'
 gem 'high_voltage'
 gem "acts_as_audited", "2.0.0"
 gem "rabl"
@@ -14,7 +14,7 @@ gem 'pg'
 group :assets do
   gem 'sass-rails',   '~> 3.1.4'
   gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier'
   gem 'compass', '~> 0.12.alpha'
   gem 'ZURB-foundation'
   gem 'compass-rails'
