@@ -1,5 +1,7 @@
 # Elo Rating Tracking for Foosball
 
+[![Build Status](https://travis-ci.org/gaslight/elo.png?branch=master)](https://travis-ci.org/gaslight/elo)
+
 After getting a Foosball Table for the Gaslight Software office, it didn't take
 long for talk of who was the better player and thoughts of a tournament to
 begin. Getting everyone to agree on the format of a tournament is quite another
